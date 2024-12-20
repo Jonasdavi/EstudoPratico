@@ -1,5 +1,5 @@
 import java.util.Random;
-public class App {
+public class test00 {
     public static void main(String[] args) throws Exception {
         Cartela c= new Cartela();
         Cartela c2=new Cartela();
@@ -20,7 +20,7 @@ public class App {
             else{
                 System.out.println("nao igual");
                 c2.sortearNumsCartela();
-                continue;
+                break;
             }
         }
         

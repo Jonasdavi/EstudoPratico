@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Arrays;
+import java.util.List;
 
 public class Cartela{
     private int cartela[][];
@@ -40,7 +41,7 @@ public class Cartela{
 
                 int numSorteado;
                 do{
-                    numSorteado=(rand.nextInt(6)+1) + 15*c; //ajusta o intervalo de numeros possiveis de ser sorteado de acordo com a coluna
+                    numSorteado=(rand.nextInt(15)+1) + 15*c; //ajusta o intervalo de numeros possiveis de ser sorteado de acordo com a coluna
                 }while(Arrays.asList(colunas[c]).contains(numSorteado)); //verifica se a coluna ja tem o numero sorteado:
 
                 colunas[c][l]=numSorteado; //adicionando o numero sorteado a sua respectiva coluna
@@ -85,6 +86,19 @@ public class Cartela{
         }
 
         return true;
+    }
+
+    public boolean temNaCartela(int numSorteado){
+        int colunaSorteada= numSorteado%15==0? numSorteado/15-1 : numSorteado/15; //encontrando o a coluna em função do numero sorteado
+
+        for(int i=0; i<TAMANHOLC; i++){
+            if(colunas[colunaSorteada][i] == numSorteado){
+                colunas[colunaSorteada][i]= -1;
+                cartela[i][colunaSorteada]=-1;
+                return true;
+            }
+        }
+        return false;
     }
 
     public int[][] getCartela(){

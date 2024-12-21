@@ -1,11 +1,13 @@
-import java.util.Random;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Random;
 
 public class Cartela{
     private int cartela[][];
+    private int cartelaMarcada[][]; //cartela retira os numeros já sorteados na mesma posição deixa -1
     private Integer[][] colunas; // para certificar que as colunas nao tenham numeros repetidos (Integer porque vou usar o metodo asList da classe Arrays que aceita apenas objetos)
+    private int qtNumsMarcados;
 
+    private final int QTNUMS=24; //Quantidade de numeros de uma cartela
     private final int TAMANHOLC=5; //tamanho da quantidade de linhas e colunas da cartela
     private final int LUGARFREE=0;
 
@@ -14,7 +16,9 @@ public class Cartela{
     public Cartela(){
         //inicializando variaveis:
         cartela= new int[TAMANHOLC][TAMANHOLC];
+        cartelaMarcada= new int[TAMANHOLC][TAMANHOLC];
         colunas= new Integer[TAMANHOLC][TAMANHOLC];
+        qtNumsMarcados=0;
 
 
     }
@@ -47,11 +51,15 @@ public class Cartela{
                 colunas[c][l]=numSorteado; //adicionando o numero sorteado a sua respectiva coluna
 
                 cartela[l][c]=  numSorteado; //adicionando numero a cartela
+
+                cartelaMarcada[l][c]=  numSorteado;
             }
         }
         //retirando o numero do meio da cartela por ele ser "free"
         cartela[2][2]= LUGARFREE;
+        cartelaMarcada[2][2]= LUGARFREE;
         colunas[2][2]= LUGARFREE;
+
 
         
         
@@ -62,6 +70,14 @@ public class Cartela{
         for(int l=0; l<TAMANHOLC; l++){
             for(int c=0; c<TAMANHOLC; c++){
                 System.out.print(cartela[l][c]+ (cartela[l][c]<=9?"   ":"  "));
+            }
+            System.out.println();
+
+        }
+        System.out.println("------------------");
+        for(int l=0; l<TAMANHOLC; l++){
+            for(int c=0; c<TAMANHOLC; c++){
+                System.out.print((cartelaMarcada[l][c]==-1?"X" : cartelaMarcada[l][c]) + (cartelaMarcada[l][c]<=9?"   ":"  "));
             }
             System.out.println();
 
@@ -93,12 +109,16 @@ public class Cartela{
 
         for(int i=0; i<TAMANHOLC; i++){
             if(colunas[colunaSorteada][i] == numSorteado){
-                colunas[colunaSorteada][i]= -1;
-                cartela[i][colunaSorteada]=-1;
+                cartelaMarcada[i][colunaSorteada]=-1;
+                qtNumsMarcados++;
                 return true;
             }
         }
         return false;
+    }
+
+    public boolean ganhou(){
+        return qtNumsMarcados==QTNUMS;
     }
 
     public int[][] getCartela(){
